@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  
+
+    <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+
+    <meta name="apple-mobile-web-app-title" content="CodePen">
+
+    <link rel="icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+    <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111" />
+
+
+
+  
+  
+
+  <title>D4D Prototype</title>
+
+    <link rel="canonical" href="https://codepen.io/papuito/pen/LERrZxq">
+  
+  
+  
+  
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+</head>
+
+<body translate="no">
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daffodils for Doris</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#f5f5f5;color:#222;overflow-x:hidden}
+
+/* ── NAVBAR ── */
+#navbar{background:#0a2240;display:flex;align-items:center;justify-content:space-between;padding:12px 32px;position:sticky;top:0;z-index:200}
+.nav-left{display:flex;align-items:center;gap:14px}
+.nav-brand{color:#f5c518;font-size:1.25rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px}
+.nav-links{display:flex;align-items:center;gap:2px}
+.nav-links a{color:#fff;text-decoration:none;padding:6px 12px;border-radius:6px;font-size:.88rem;transition:.2s}
+.nav-links a:hover,.nav-links a.active{color:#f5c518;background:rgba(245,197,24,.08)}
+.nav-actions{display:flex;flex-direction:column;gap:5px;align-items:flex-end}
+.btn-join{background:#f5c518;color:#0a2240;border:none;padding:8px 18px;border-radius:20px;font-weight:700;cursor:pointer;font-size:.88rem;transition:.2s}
+.btn-join:hover{background:#e0b000}
+.btn-login{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.6);padding:5px 16px;border-radius:20px;cursor:pointer;font-size:.82rem;transition:.2s}
+.btn-login:hover{background:#fff;color:#0a2240}
+.btn-donate{background:#f5c518;color:#0a2240;border:none;padding:7px 18px;border-radius:20px;font-weight:700;font-size:.85rem;cursor:pointer;transition:.2s}
+.btn-donate:hover{background:#e0b000;transform:translateY(-1px)}
+
+/* ── USER BAR ── */
+#userBar{display:none;background:#156f5c;color:#fff;padding:8px 32px;font-size:.85rem;align-items:center;gap:12px;justify-content:flex-end}
+.btn-logout{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;padding:4px 12px;border-radius:12px;cursor:pointer;font-size:.8rem;transition:.2s}
+.btn-logout:hover{background:rgba(255,255,255,.35)}
+.admin-badge{background:#f5c518;color:#0a2240;font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:10px}
+
+/* ── PAGES ── */
+.page{display:none}
+.page.active{display:block}
+
+/* ── HOME PAGE ── */
+.hero{background:linear-gradient(135deg,#0a2240 0%,#156f5c 100%);padding:80px 32px 60px;text-align:center;color:#fff}
+.hero-daffodil{font-size:4rem;margin-bottom:16px}
+.hero h1{font-size:2.6rem;font-weight:800;margin-bottom:16px;line-height:1.2}
+.hero h1 span{color:#f5c518}
+.hero p{font-size:1.1rem;opacity:.9;max-width:600px;margin:0 auto 32px;line-height:1.7}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.hero-btn-primary{background:#f5c518;color:#0a2240;padding:14px 32px;border-radius:30px;font-weight:700;font-size:1rem;border:none;cursor:pointer;transition:.2s}
+.hero-btn-primary:hover{background:#e0b000;transform:translateY(-1px)}
+.hero-btn-secondary{background:transparent;color:#fff;padding:13px 32px;border-radius:30px;font-weight:600;font-size:1rem;border:2px solid rgba(255,255,255,.6);cursor:pointer;transition:.2s}
+.hero-btn-secondary:hover{background:rgba(255,255,255,.12)}
+.hero-btn-donate{background:#f5c518;color:#0a2240;padding:13px 32px;border-radius:30px;font-weight:700;font-size:1rem;border:none;cursor:pointer;transition:.2s}
+.hero-btn-donate:hover{background:#e0b000;transform:translateY(-2px)}
+
+.mission-section{padding:60px 32px;max-width:1100px;margin:0 auto}
+.mission-section h2{text-align:center;font-size:1.8rem;color:#0a2240;margin-bottom:8px}
+.mission-section .subtitle{text-align:center;color:#666;margin-bottom:40px;font-size:.97rem}
+.mission-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.mission-card{background:#fff;border-radius:14px;padding:28px 24px;box-shadow:0 2px 12px rgba(0,0,0,.07);border-top:4px solid #156f5c;transition:.2s}
+.mission-card:hover{transform:translateY(-3px);box-shadow:0 6px 22px rgba(0,0,0,.11)}
+.mission-card .icon{font-size:2rem;margin-bottom:12px}
+.mission-card h3{font-size:1.1rem;color:#0a2240;margin-bottom:8px;font-weight:700}
+.mission-card p{font-size:.9rem;color:#555;line-height:1.6}
+
+.stats-strip{background:#0a2240;padding:40px 32px;text-align:center}
+.stats-grid{display:flex;justify-content:center;gap:60px;flex-wrap:wrap;max-width:900px;margin:0 auto}
+.stat-item .num{font-size:2.4rem;font-weight:800;color:#f5c518}
+.stat-item .lbl{font-size:.88rem;color:rgba(255,255,255,.75);margin-top:4px}
+
+.join-section{background:#f0f7f5;padding:60px 32px;text-align:center}
+.join-section h2{font-size:1.8rem;color:#0a2240;margin-bottom:10px}
+.join-section p{color:#555;margin-bottom:32px;max-width:550px;margin-left:auto;margin-right:auto;line-height:1.6}
+.join-cards{display:flex;gap:24px;justify-content:center;flex-wrap:wrap}
+.join-card{background:#fff;border-radius:14px;padding:32px 28px;width:260px;box-shadow:0 2px 12px rgba(0,0,0,.07);border:2px solid transparent;transition:.2s;text-align:center}
+.join-card:hover{border-color:#156f5c;transform:translateY(-2px)}
+.join-card .jc-icon{font-size:2.5rem;margin-bottom:12px}
+.join-card h3{font-size:1.05rem;color:#0a2240;font-weight:700;margin-bottom:8px}
+.join-card p{font-size:.87rem;color:#666;line-height:1.55;margin-bottom:16px}
+.btn-join-card{background:#156f5c;color:#fff;border:none;padding:10px 22px;border-radius:20px;font-weight:600;cursor:pointer;font-size:.88rem;transition:.2s;width:100%}
+.btn-join-card:hover{background:#0f5046}
+
+/* ── ABOUT PAGE ── */
+.page-header{background:linear-gradient(135deg,#0a2240 0%,#156f5c 100%);padding:50px 32px;color:#fff;text-align:center}
+.page-header h1{font-size:2.1rem;font-weight:800;margin-bottom:10px}
+.page-header p{opacity:.85;max-width:600px;margin:0 auto;line-height:1.6}
+.about-content{max-width:900px;margin:0 auto;padding:50px 32px}
+.about-content h2{color:#0a2240;font-size:1.4rem;margin-bottom:14px;margin-top:32px}
+.about-content p{color:#444;line-height:1.75;margin-bottom:14px;font-size:.97rem}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:20px}
+@media(max-width:640px){.about-grid{grid-template-columns:1fr}}
+.about-box{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.about-box h3{color:#156f5c;font-size:1rem;font-weight:700;margin-bottom:8px}
+.about-box p{font-size:.9rem;color:#555;line-height:1.6}
+
+/* ── MENTOR PROGRAMMES ── */
+.prog-content{max-width:1100px;margin:0 auto;padding:50px 32px}
+.prog-content>h2{color:#0a2240;font-size:1.5rem;margin-bottom:12px}
+.prog-content>p{color:#555;line-height:1.7;margin-bottom:20px;font-size:.97rem}
+.programmes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px;margin:30px 0}
+.prog-card{background:#fff;border-radius:14px;padding:30px 28px 24px;box-shadow:0 2px 12px rgba(0,0,0,.07);display:flex;flex-direction:column}
+.prog-card.pillar-personal{border-top:5px solid #c8a951}
+.prog-card.pillar-business{border-top:5px solid #0a2240}
+.prog-card.pillar-financial{border-top:5px solid #156f5c}
+.prog-card-icon{font-size:1.7rem;margin-bottom:10px}
+.prog-card h3{color:#0a2240;font-size:1.08rem;font-weight:700;margin-bottom:8px}
+.prog-card .prog-card-intro{color:#555;font-size:.9rem;line-height:1.6;margin-bottom:14px}
+.prog-card ul{list-style:none;padding:0;margin:0 0 14px;flex:1}
+.prog-card ul li{font-size:.85rem;color:#444;line-height:1.8;padding-left:0}
+.prog-card ul li strong{color:#0a2240}
+.prog-card .prog-card-note{font-size:.78rem;color:#777;font-style:italic;line-height:1.5;border-top:1px solid #f0f0f0;padding-top:12px;margin-top:auto}
+.prog-tag{display:inline-block;background:#e8f5e0;color:#2e7d32;font-size:.75rem;font-weight:600;padding:3px 10px;border-radius:10px;margin-right:6px;margin-bottom:6px}
+.prog-cta{background:linear-gradient(135deg,#0a2240,#156f5c);border-radius:14px;padding:40px;text-align:center;color:#fff;margin-top:40px}
+.prog-cta h2{font-size:1.6rem;margin-bottom:10px}
+.prog-cta p{opacity:.85;margin-bottom:28px;max-width:500px;margin-left:auto;margin-right:auto}
+.prog-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.prog-btn{padding:13px 28px;border-radius:25px;font-weight:700;font-size:.95rem;cursor:pointer;border:2px solid #f5c518;transition:.2s}
+.prog-btn.mentee{background:#f5c518;color:#0a2240}
+.prog-btn.mentee:hover{background:#e0b000}
+.prog-btn.mentor{background:transparent;color:#f5c518}
+.prog-btn.mentor:hover{background:rgba(245,197,24,.15)}
+
+/* ── PARTNERS PAGE ── */
+.partners-content{max-width:1100px;margin:0 auto;padding:40px 32px}
+.admin-panel{background:#fff3cd;border:1.5px solid #f5c518;border-radius:12px;padding:24px;margin-bottom:36px}
+.admin-panel h3{color:#0a2240;font-size:1.1rem;margin-bottom:16px;font-weight:700}
+.admin-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.admin-form input,.admin-form select,.admin-form textarea{padding:9px 13px;border:1.5px solid #ddd;border-radius:8px;font-size:.88rem;font-family:inherit;transition:.2s}
+.admin-form input:focus,.admin-form select:focus,.admin-form textarea:focus{outline:none;border-color:#156f5c}
+.admin-form .full{grid-column:1/-1}
+.btn-admin-add{background:#0a2240;color:#fff;border:none;padding:10px 24px;border-radius:20px;font-weight:700;cursor:pointer;font-size:.88rem;transition:.2s;margin-top:6px}
+.btn-admin-add:hover{background:#156f5c}
+.partners-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:22px;margin-bottom:60px}
+.partner-card{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 10px rgba(0,0,0,.07);transition:.2s}
+.partner-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.1)}
+.partner-logo{font-size:2.2rem;margin-bottom:10px}
+.partner-card h3{color:#0a2240;font-size:1rem;font-weight:700;margin-bottom:6px}
+.partner-card p{color:#555;font-size:.87rem;line-height:1.55;margin-bottom:10px}
+.partner-cat{display:inline-block;background:#e3f2fd;color:#1565c0;font-size:.73rem;font-weight:600;padding:2px 9px;border-radius:10px;margin-bottom:10px}
+.partner-link{color:#156f5c;font-size:.85rem;font-weight:600;text-decoration:none;transition:.2s}
+.partner-link:hover{color:#0f5046}
+.btn-remove-partner{background:#ffeaea;color:#c62828;border:1px solid #ffcdd2;padding:4px 12px;border-radius:10px;cursor:pointer;font-size:.77rem;font-weight:600;transition:.2s;margin-top:8px;display:block}
+.btn-remove-partner:hover{background:#ffcdd2}
+
+/* Partnership Contact Appendix */
+.partnership-contact{background:linear-gradient(135deg,#0a2240 0%,#156f5c 100%);padding:60px 32px;color:#fff}
+.partnership-contact h2{text-align:center;font-size:1.8rem;margin-bottom:6px;color:#f5c518}
+.partnership-contact .sub{text-align:center;opacity:.85;margin-bottom:36px;max-width:550px;margin-left:auto;margin-right:auto}
+.contact-form{background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border-radius:16px;padding:36px;max-width:620px;margin:0 auto;border:1px solid rgba(255,255,255,.2)}
+.contact-form label{display:block;color:rgba(255,255,255,.85);font-size:.85rem;font-weight:600;margin-bottom:5px;margin-top:14px}
+.contact-form input,.contact-form select,.contact-form textarea{width:100%;padding:10px 14px;border:1.5px solid rgba(255,255,255,.25);border-radius:8px;background:rgba(255,255,255,.12);color:#fff;font-size:.9rem;font-family:inherit;transition:.2s}
+.contact-form input::placeholder,.contact-form textarea::placeholder{color:rgba(255,255,255,.5)}
+.contact-form input:focus,.contact-form select:focus,.contact-form textarea:focus{outline:none;border-color:#f5c518;background:rgba(255,255,255,.18)}
+.contact-form select option{color:#222;background:#fff}
+.btn-send-inquiry{background:#f5c518;color:#0a2240;border:none;padding:12px 30px;border-radius:25px;font-weight:700;cursor:pointer;font-size:.95rem;width:100%;margin-top:20px;transition:.2s}
+.btn-send-inquiry:hover{background:#e0b000;transform:translateY(-1px)}
+
+/* ── FORUM PAGE ── */
+.forum-content{max-width:820px;margin:0 auto;padding:40px 32px}
+.forum-locked{background:#fff;border-radius:12px;padding:40px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.07);color:#555}
+.forum-locked .lock-icon{font-size:2.5rem;margin-bottom:12px}
+.forum-locked h3{color:#0a2240;margin-bottom:8px}
+.forum-locked p{margin-bottom:20px;font-size:.93rem}
+.btn-login-prompt{background:#0a2240;color:#fff;border:none;padding:10px 24px;border-radius:20px;font-weight:600;cursor:pointer;font-size:.9rem;transition:.2s}
+.btn-login-prompt:hover{background:#156f5c}
+.post-form{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:28px}
+.post-form h3{color:#0a2240;font-size:1rem;margin-bottom:14px;font-weight:700}
+.post-form input,.post-form textarea{width:100%;padding:10px 13px;border:1.5px solid #ddd;border-radius:8px;font-size:.9rem;font-family:inherit;margin-bottom:10px;transition:.2s}
+.post-form input:focus,.post-form textarea:focus{outline:none;border-color:#156f5c}
+.btn-post{background:#156f5c;color:#fff;border:none;padding:10px 24px;border-radius:20px;font-weight:700;cursor:pointer;font-size:.9rem;transition:.2s}
+.btn-post:hover{background:#0f5046}
+.post-card{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:18px}
+.post-meta{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.post-author{font-weight:700;color:#0a2240;font-size:.9rem}
+.post-role{background:#e3f2fd;color:#1565c0;font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:10px}
+.post-role.admin-role{background:#fff3cd;color:#856404}
+.post-role.mentor-role{background:#e8f5e0;color:#2e7d32}
+.post-date{color:#999;font-size:.82rem;margin-left:auto}
+.post-title{font-size:1.05rem;font-weight:700;color:#0a2240;margin-bottom:6px}
+.post-body{color:#555;font-size:.92rem;line-height:1.65;margin-bottom:14px}
+.btn-reply{background:transparent;border:1.5px solid #156f5c;color:#156f5c;padding:6px 16px;border-radius:14px;cursor:pointer;font-size:.82rem;font-weight:600;transition:.2s}
+.btn-reply:hover{background:#156f5c;color:#fff}
+.replies-section{margin-top:14px;padding-top:14px;border-top:1px solid #f0f0f0}
+.reply-card{background:#f8fafb;border-radius:8px;padding:12px 16px;margin-bottom:8px}
+.reply-meta{display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap}
+.reply-author{font-weight:700;color:#0a2240;font-size:.85rem}
+.reply-text{color:#555;font-size:.88rem;line-height:1.55}
+
+/* ── WORKSHOPS PAGE ── */
+.workshops-content{max-width:1100px;margin:0 auto;padding:40px 32px}
+.workshops-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;margin-top:28px}
+.workshop-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.07);transition:.2s}
+.workshop-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.11)}
+.workshop-video{width:100%;aspect-ratio:16/9;border:none;display:block}
+.workshop-info{padding:18px}
+.workshop-info h3{color:#0a2240;font-size:1rem;font-weight:700;margin-bottom:6px}
+.workshop-info p{color:#555;font-size:.87rem;line-height:1.55;margin-bottom:10px}
+.workshop-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.workshop-cat{background:#e8f5e0;color:#2e7d32;font-size:.73rem;font-weight:600;padding:3px 9px;border-radius:10px}
+.workshop-date{color:#999;font-size:.78rem}
+
+/* ── MODALS ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:999;opacity:0;pointer-events:none;transition:.25s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal-box{background:#fff;border-radius:16px;padding:32px;width:min(480px,90vw);max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2);transform:translateY(20px);transition:.25s}
+.modal-overlay.open .modal-box{transform:translateY(0)}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.modal-header h2{color:#0a2240;font-size:1.2rem;font-weight:700}
+.modal-close{background:none;border:none;font-size:1.4rem;cursor:pointer;color:#999;transition:.2s;padding:4px}
+.modal-close:hover{color:#333}
+.modal-label{font-size:.85rem;font-weight:600;color:#555;margin-bottom:5px;display:block}
+.modal-input{width:100%;padding:10px 13px;border:1.5px solid #ddd;border-radius:8px;font-size:.9rem;font-family:inherit;margin-bottom:14px;transition:.2s}
+.modal-input:focus{outline:none;border-color:#156f5c}
+.btn-modal-primary{background:#0a2240;color:#fff;border:none;padding:11px 0;border-radius:20px;font-weight:700;cursor:pointer;font-size:.95rem;width:100%;transition:.2s}
+.btn-modal-primary:hover{background:#156f5c}
+
+/* Join Modal */
+.join-options{display:flex;gap:16px;margin-top:8px;flex-wrap:wrap}
+.join-option-card{flex:1;min-width:180px;border:2px solid #e0e0e0;border-radius:12px;padding:22px 16px;text-align:center;transition:.2s;background:#fafafa}
+.join-option-card:hover{border-color:#156f5c;background:#f0f9f7}
+.join-option-card .joc-icon{font-size:2.2rem;margin-bottom:10px}
+.join-option-card h3{color:#0a2240;font-size:.97rem;font-weight:700;margin-bottom:6px}
+.join-option-card p{color:#666;font-size:.82rem;line-height:1.5;margin-bottom:14px}
+.btn-joc{display:block;width:100%;padding:10px 0;border-radius:20px;font-weight:700;font-size:.87rem;cursor:pointer;border:none;transition:.2s;text-decoration:none;text-align:center}
+.btn-joc.mentee{background:#f5c518;color:#0a2240}
+.btn-joc.mentee:hover{background:#e0b000}
+.btn-joc.mentor{background:#0a2240;color:#fff}
+.btn-joc.mentor:hover{background:#156f5c}
+
+/* ── FOOTER ── */
+footer{background:#0a2240;color:#fff;padding:40px 32px 24px;margin-top:auto}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:32px;max-width:1100px;margin:0 auto;margin-bottom:28px}
+.footer-brand .fb-logo{color:#f5c518;font-size:1.15rem;font-weight:700;margin-bottom:8px}
+.footer-brand p{font-size:.83rem;opacity:.7;line-height:1.6}
+.footer-col h4{color:#f5c518;font-size:.88rem;font-weight:700;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+.footer-col a{display:block;color:rgba(255,255,255,.7);text-decoration:none;font-size:.85rem;margin-bottom:7px;transition:.2s}
+.footer-col a:hover{color:#f5c518}
+.footer-col p{color:rgba(255,255,255,.7);font-size:.85rem;line-height:1.7}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:16px;text-align:center;color:rgba(255,255,255,.45);font-size:.8rem;max-width:1100px;margin:0 auto}
+
+/* ── MISC ── */
+.section-tag{display:inline-block;background:rgba(245,197,24,.15);color:#b8860b;font-size:.78rem;font-weight:700;padding:4px 12px;border-radius:10px;margin-bottom:10px;letter-spacing:.3px;text-transform:uppercase}
+.page-header .section-tag{background:rgba(255,255,255,.15);color:rgba(255,255,255,.85)}
+
+@media(max-width:768px){
+  #navbar{padding:10px 16px}
+  .nav-links{display:none}
+  .hero{padding:50px 20px 40px}
+  .hero h1{font-size:1.7rem}
+  .mission-section,.prog-content,.forum-content,.workshops-content,.partners-content{padding:30px 16px}
+  .stats-grid{gap:30px}
+  .admin-form{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ USER BAR ═══════════════════ -->
+<div id="userBar">
+  <span>Logged in as: <strong id="loggedUserName"></strong></span>
+  <span id="adminBadge" class="admin-badge" style="display:none">ADMIN</span>
+  <button class="btn-logout" onclick="logout()">Log Out</button>
+</div>
+
+<!-- ═══════════════════ NAVBAR ═══════════════════ -->
+<nav id="navbar">
+  <div class="nav-left">
+    <span class="nav-brand" onclick="showPage('home')">🌼 Daffodils for Doris</span>
+  </div>
+  <div class="nav-links">
+    <a href="#" onclick="return showPage('home')" id="nav-home" class="active">Home</a>
+    <a href="#" onclick="return showPage('about')" id="nav-about">About</a>
+    <a href="#" onclick="return showPage('programmes')" id="nav-programmes">Mentor Programmes</a>
+    <a href="#" onclick="return showPage('partners')" id="nav-partners">Partners</a>
+    <a href="#" onclick="return showPage('forum')" id="nav-forum">Forum</a>
+    <a href="#" onclick="return showPage('workshops')" id="nav-workshops">Workshops</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-donate" onclick="window.open('https://www.justgiving.com/daffodilsfordoris','_blank')">💛 Donate</button>
+    <button class="btn-join" onclick="openJoinModal()">Join Us ▾</button>
+    <button class="btn-login" onclick="openLoginModal()">Log In</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HOME PAGE ═══════════════════ -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-daffodil">🌼</div>
+    <h1>Empowering Women Through <span>Mentorship</span></h1>
+    <p>Daffodils for Doris connects ambitious women with experienced mentors, creating pathways to success in careers, business, and personal growth.</p>
+    <div class="hero-btns">
+      <button class="hero-btn-primary" onclick="openJoinModal()">Join the Programme</button>
+      <button class="hero-btn-secondary" onclick="showPage('about')">Learn More</button>
+      <button class="hero-btn-donate" onclick="window.open('https://www.justgiving.com/daffodilsfordoris','_blank')">💛 Donate</button>
+    </div>
+  </div>
+
+  <div class="mission-section">
+    <div class="section-tag">Our Mission</div>
+    <h2>What We Do</h2>
+    <p class="subtitle">We believe every woman deserves a champion in her corner.</p>
+    <div class="mission-cards">
+      <div class="mission-card">
+        <div class="icon">🌱</div>
+        <h3>Personal Development</h3>
+        <p>Building internal empowerment — helping mentees develop confidence, self-awareness, emotional resilience, mindset, and a clear sense of purpose.</p>
+      </div>
+      <div class="mission-card">
+        <div class="icon">💼</div>
+        <h3>Business Development</h3>
+        <p>Equipping mentees with practical workplace skills — from professional communication and career navigation to business acumen and networking.</p>
+      </div>
+      <div class="mission-card">
+        <div class="icon">💰</div>
+        <h3>Financial Development</h3>
+        <p>Building financial independence — covering budgeting, investing, debt management, tax literacy, and long-term financial planning.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-strip">
+    <div class="stats-grid">
+      <div class="stat-item"><div class="num">200+</div><div class="lbl">Mentees Supported</div></div>
+      <div class="stat-item"><div class="num">85+</div><div class="lbl">Active Mentors</div></div>
+      <div class="stat-item"><div class="num">50+</div><div class="lbl">Workshops Delivered</div></div>
+      <div class="stat-item"><div class="num">12+</div><div class="lbl">Partner Organisations</div></div>
+    </div>
+  </div>
+
+  <div class="join-section">
+    <div class="section-tag">Get Involved</div>
+    <h2>Ready to Take the Next Step?</h2>
+    <p>Whether you want to be guided or guide others, there's a place for you in our community.</p>
+    <div class="join-cards">
+      <div class="join-card">
+        <div class="jc-icon">🌱</div>
+        <h3>Become a Mentee</h3>
+        <p>Get paired with an experienced mentor who will support your personal and professional development.</p>
+        <button class="btn-join-card" onclick="window.open('https://forms.gle/GMQs66Aq4NDdouas7','_blank')">Apply as Mentee</button>
+      </div>
+      <div class="join-card">
+        <div class="jc-icon">⭐</div>
+        <h3>Become a Mentor</h3>
+        <p>Share your experience and expertise to inspire and guide the next generation of women leaders.</p>
+        <button class="btn-join-card" onclick="window.open('https://forms.gle/kwxswZKt2uRDTfZ8A','_blank')">Apply as Mentor</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="fb-logo">🌼 Daffodils for Doris</div>
+        <p>UK Registered Charity<br>Charity number: 1168073</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="#" onclick="return showPage('home')">Home</a>
+        <a href="#" onclick="return showPage('about')">About</a>
+        <a href="#" onclick="return showPage('partners')">Partners</a>
+        <a href="#" onclick="return showPage('forum')">Forum</a>
+        <a href="#" onclick="return showPage('workshops')">Workshops</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <p>daffodils4doris@gmail.com</p>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Daffodils for Doris. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- ═══════════════════ ABOUT PAGE ═══════════════════ -->
+<div class="page" id="page-about">
+  <div class="page-header">
+    <div class="section-tag">About Us</div>
+    <h1>About Daffodils for Doris</h1>
+    <p>A UK charity dedicated to empowering women through mentorship, community, and opportunity.</p>
+  </div>
+  <div class="about-content">
+    <h2>Our Story</h2>
+    <p>Daffodils for Doris was founded in honour of Doris, a woman who believed passionately in the power of community and the importance of lifting others as you climb. What began as a small local initiative has grown into a registered UK charity (number: 1168073) touching the lives of hundreds of women across the country.</p>
+    <p>We match mentees with mentors who understand their challenges — women who have walked similar paths and are committed to sharing their wisdom, network, and encouragement.</p>
+    <h2>Our Values</h2>
+    <div class="about-grid">
+      <div class="about-box"><h3>🌼 Empowerment</h3><p>We believe every woman has the potential to achieve extraordinary things with the right support and guidance.</p></div>
+      <div class="about-box"><h3>🤝 Community</h3><p>We foster genuine connections — not just professional networks, but real friendships and mutual support.</p></div>
+      <div class="about-box"><h3>🌍 Inclusivity</h3><p>Our programme welcomes women from all backgrounds, industries, and stages of their personal journey.</p></div>
+      <div class="about-box"><h3>🌱 Growth</h3><p>We champion continuous learning, resilience, and the courage to take on new challenges.</p></div>
+    </div>
+    <h2>UK Registered Charity</h2>
+    <p>As a registered charity (number: 1168073), we are committed to transparency, accountability, and maximising the impact of every donation and partnership we receive. All funds go directly to supporting our mentorship programmes, workshops, and community initiatives.</p>
+  </div>
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="fb-logo">🌼 Daffodils for Doris</div><p>UK Registered Charity<br>Charity number: 1168073</p></div>
+      <div class="footer-col"><h4>Quick Links</h4><a href="#" onclick="return showPage('home')">Home</a><a href="#" onclick="return showPage('about')">About</a><a href="#" onclick="return showPage('partners')">Partners</a><a href="#" onclick="return showPage('forum')">Forum</a><a href="#" onclick="return showPage('workshops')">Workshops</a></div>
+      <div class="footer-col"><h4>Contact</h4><p>daffodils4doris@gmail.com</p></div>
+    </div>
+    <div class="footer-bottom">© 2026 Daffodils for Doris. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- ═══════════════════ MENTOR PROGRAMMES PAGE ═══════════════════ -->
+<div class="page" id="page-programmes">
+  <div class="page-header">
+    <div class="section-tag">Mentorship</div>
+    <h1>Mentor Programmes</h1>
+    <p>Structured, meaningful mentoring relationships designed to help women grow, lead, and thrive.</p>
+  </div>
+  <div class="prog-content">
+    <h2>Our Three Core Pillars</h2>
+    <p>Every mentoring relationship at Daffodils for Doris is structured around three foundational pillars. Together they build the confidence, competence, and financial independence needed for lasting empowerment.</p>
+
+    <div class="programmes-grid">
+
+      <!-- PILLAR 1: Personal Development -->
+      <div class="prog-card pillar-personal">
+        <div class="prog-card-icon">🌱</div>
+        <h3>Personal Development</h3>
+        <p class="prog-card-intro">Focuses on strengthening internal empowerment, enabling mentees to build confidence, self-awareness, and emotional resilience.</p>
+        <ul>
+          <li>🔹 <strong>Mindset &amp; Resilience</strong> — growth mindset, handling failure, stress management</li>
+          <li>🔹 <strong>Goal Setting &amp; Habits</strong> — OKRs, SMART goals, habit formation, accountability</li>
+          <li>🔹 <strong>Communication &amp; Public Speaking</strong> — storytelling, presentation skills, assertive communication</li>
+          <li>🔹 <strong>Emotional Intelligence</strong> — self-awareness, empathy, conflict resolution</li>
+          <li>🔹 <strong>Time Management &amp; Prioritisation</strong> — deep work, avoiding burnout, productivity systems</li>
+          <li>🔹 <strong>Career Clarity &amp; Purpose</strong> — identifying values, defining success, long-term vision mapping</li>
+          <li>🔹 <strong>Health &amp; Well-being</strong> — physical health habits, mental health awareness, work-life balance</li>
+        </ul>
+        <p class="prog-card-note">This pillar addresses the psychological barriers that often limit women's ability to take action, positioning it as the foundation for long-term empowerment.</p>
+      </div>
+
+      <!-- PILLAR 2: Business Development -->
+      <div class="prog-card pillar-business">
+        <div class="prog-card-icon">💼</div>
+        <h3>Business Development</h3>
+        <p class="prog-card-intro">Enhances professional growth and career progression by equipping mentees with practical workplace skills and clarity.</p>
+        <ul>
+          <li>🔹 <strong>Understanding the Workplace</strong> — organisational structure, decision-making, company culture</li>
+          <li>🔹 <strong>Professional Communication</strong> — clear emails, speaking up in meetings, giving &amp; receiving feedback</li>
+          <li>🔹 <strong>Building Your Reputation</strong> — personal brand, reliability, becoming the "go-to" person</li>
+          <li>🔹 <strong>Working with People</strong> — cross-team collaboration, managing up, handling difficult colleagues</li>
+          <li>🔹 <strong>Taking Initiative &amp; Problem Solving</strong> — identifying improvements, proposing solutions, showing ownership</li>
+          <li>🔹 <strong>Career Navigation</strong> — promotion criteria, career conversations, clear progression path</li>
+          <li>🔹 <strong>Workplace Productivity</strong> — prioritising tasks, meeting deadlines, managing workload under pressure</li>
+          <li>🔹 <strong>Professionalism &amp; Business Etiquette</strong> — punctuality, dress standards, digital etiquette</li>
+          <li>🔹 <strong>Basic Business Acumen</strong> — how your company makes money, key metrics, your role's impact</li>
+          <li>🔹 <strong>Networking</strong> — building internal allies, attending industry events, using LinkedIn effectively</li>
+        </ul>
+        <p class="prog-card-note">This pillar supports mentees in translating internal growth into tangible career outcomes, improving employability, performance, and advancement opportunities.</p>
+      </div>
+
+      <!-- PILLAR 3: Financial Development -->
+      <div class="prog-card pillar-financial">
+        <div class="prog-card-icon">💰</div>
+        <h3>Financial Development</h3>
+        <p class="prog-card-intro">Focuses on building financial independence and decision-making capability, essential for sustainable empowerment.</p>
+        <ul>
+          <li>🔹 <strong>Budgeting &amp; Saving</strong> — income tracking, expense management, emergency funds</li>
+          <li>🔹 <strong>Debt Management</strong> — understanding credit, repayment strategies, avoiding bad debt</li>
+          <li>🔹 <strong>Investing Fundamentals</strong> — asset classes, risk tolerance, portfolio diversification</li>
+          <li>🔹 <strong>Tax Literacy</strong> — personal tax obligations, deductions, filing basics</li>
+          <li>🔹 <strong>Retirement &amp; Long-term Planning</strong> — pension options, compound growth, financial independence</li>
+          <li>🔹 <strong>Income Diversification</strong> — side income, passive income streams, freelancing basics</li>
+          <li>🔹 <strong>Financial Psychology</strong> — behavioural biases, spending triggers, healthy money mindset</li>
+        </ul>
+        <p class="prog-card-note">This pillar ensures mentees can manage resources effectively, reducing financial vulnerability and increasing long-term stability and autonomy.</p>
+      </div>
+
+    </div>
+
+    <div class="prog-cta">
+      <h2>Ready to Join?</h2>
+      <p>Applications are open now. Select your role and fill in our short application form — we'll be in touch within 5 working days.</p>
+      <div class="prog-btns">
+        <button class="prog-btn mentee" onclick="window.open('https://forms.gle/GMQs66Aq4NDdouas7','_blank')">I want to be a Mentee →</button>
+        <button class="prog-btn mentor" onclick="window.open('https://forms.gle/kwxswZKt2uRDTfZ8A','_blank')">I want to be a Mentor →</button>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="fb-logo">🌼 Daffodils for Doris</div><p>UK Registered Charity<br>Charity number: 1168073</p></div>
+      <div class="footer-col"><h4>Quick Links</h4><a href="#" onclick="return showPage('home')">Home</a><a href="#" onclick="return showPage('about')">About</a><a href="#" onclick="return showPage('partners')">Partners</a><a href="#" onclick="return showPage('forum')">Forum</a><a href="#" onclick="return showPage('workshops')">Workshops</a></div>
+      <div class="footer-col"><h4>Contact</h4><p>daffodils4doris@gmail.com</p></div>
+    </div>
+    <div class="footer-bottom">© 2026 Daffodils for Doris. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- ═══════════════════ PARTNERS PAGE ═══════════════════ -->
+<div class="page" id="page-partners">
+  <div class="page-header">
+    <div class="section-tag">Partners</div>
+    <h1>Our Partners</h1>
+    <p>We are grateful to the organisations and companies who share our vision and support our mission.</p>
+  </div>
+  <div class="partners-content">
+    <!-- Admin Upload Panel -->
+    <div id="adminPartnerSection" class="admin-panel" style="display:none">
+      <h3>➕ Add New Partner (Admin Only)</h3>
+      <div class="admin-form">
+        <input id="pName" placeholder="Partner / Organisation Name *" />
+        <input id="pUrl" placeholder="Website URL (optional)" />
+        <select id="pCat">
+          <option value="Corporate">Corporate</option>
+          <option value="NGO">NGO</option>
+          <option value="Foundation">Foundation</option>
+          <option value="Educational">Educational</option>
+          <option value="Government">Government</option>
+          <option value="Other">Other</option>
+        </select>
+        <input id="pLogo" placeholder="Logo Emoji (e.g. 🏢)" />
+        <textarea id="pDesc" class="full" rows="2" placeholder="Short description *"></textarea>
+        <div class="full"><button class="btn-admin-add" onclick="addPartner()">Add Partner</button></div>
+      </div>
+    </div>
+
+    <!-- Partners Grid -->
+    <div id="partnersGrid" class="partners-grid"></div>
+  </div>
+
+  <!-- Partnership Contact Appendix -->
+  <div class="partnership-contact">
+    <h2>🔗 Become a Partner</h2>
+    <p class="sub">Interested in supporting Daffodils for Doris? We'd love to hear from you. Fill in the form below and our partnerships team will be in touch.</p>
+    <div class="contact-form">
+      <label>Organisation Name *</label>
+      <input id="contactOrgName" placeholder="Your organisation" />
+      <label>Contact Person *</label>
+      <input id="contactPerson" placeholder="Full name" />
+      <label>Email Address *</label>
+      <input id="contactEmail" type="email" placeholder="your@email.com" />
+      <label>Organisation Type</label>
+      <select id="contactType">
+        <option value="Corporate">Corporate / Business</option>
+        <option value="NGO">NGO / Charity</option>
+        <option value="Foundation">Foundation</option>
+        <option value="Educational">Educational Institution</option>
+        <option value="Government">Government / Public Sector</option>
+        <option value="Other">Other</option>
+      </select>
+      <label>Message *</label>
+      <textarea id="contactMsg" rows="4" placeholder="Tell us how you'd like to partner with us..."></textarea>
+      <button class="btn-send-inquiry" onclick="submitPartnerContact()">Send Partnership Inquiry</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="fb-logo">🌼 Daffodils for Doris</div><p>UK Registered Charity<br>Charity number: 1168073</p></div>
+      <div class="footer-col"><h4>Quick Links</h4><a href="#" onclick="return showPage('home')">Home</a><a href="#" onclick="return showPage('about')">About</a><a href="#" onclick="return showPage('partners')">Partners</a><a href="#" onclick="return showPage('forum')">Forum</a><a href="#" onclick="return showPage('workshops')">Workshops</a></div>
+      <div class="footer-col"><h4>Contact</h4><p>daffodils4doris@gmail.com</p></div>
+    </div>
+    <div class="footer-bottom">© 2026 Daffodils for Doris. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- ═══════════════════ FORUM PAGE ═══════════════════ -->
+<div class="page" id="page-forum">
+  <div class="page-header">
+    <div class="section-tag">Community</div>
+    <h1>Community Forum</h1>
+    <p>Ask questions, share experiences, and connect with fellow mentees and mentors.</p>
+  </div>
+  <div class="forum-content">
+    <div id="forumLocked" class="forum-locked" style="display:none">
+      <div class="lock-icon">🔒</div>
+      <h3>Members Only</h3>
+      <p>You need to be logged in to access the community forum. Log in to join the conversation.</p>
+      <button class="btn-login-prompt" onclick="openLoginModal()">Log In to Continue</button>
+    </div>
+    <div id="postFormContainer" style="display:none">
+      <div class="post-form">
+        <h3>💬 Start a New Discussion</h3>
+        <input id="postTitle" placeholder="Title of your question or topic..." />
+        <textarea id="postBody" rows="3" placeholder="Share your thoughts, question, or experience..."></textarea>
+        <button class="btn-post" onclick="submitPost()">Post to Forum</button>
+      </div>
+    </div>
+    <div id="postsList"></div>
+  </div>
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="fb-logo">🌼 Daffodils for Doris</div><p>UK Registered Charity<br>Charity number: 1168073</p></div>
+      <div class="footer-col"><h4>Quick Links</h4><a href="#" onclick="return showPage('home')">Home</a><a href="#" onclick="return showPage('about')">About</a><a href="#" onclick="return showPage('partners')">Partners</a><a href="#" onclick="return showPage('forum')">Forum</a><a href="#" onclick="return showPage('workshops')">Workshops</a></div>
+      <div class="footer-col"><h4>Contact</h4><p>daffodils4doris@gmail.com</p></div>
+    </div>
+    <div class="footer-bottom">© 2026 Daffodils for Doris. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- ═══════════════════ WORKSHOPS PAGE ═══════════════════ -->
+<div class="page" id="page-workshops">
+  <div class="page-header">
+    <div class="section-tag">Learning</div>
+    <h1>Workshops</h1>
+    <p>Watch our expert-led workshops on demand, covering career, leadership, entrepreneurship and more.</p>
+  </div>
+  <div class="workshops-content">
+    <div id="adminUploadSection" class="admin-panel" style="display:none">
+      <h3>📹 Upload New Workshop (Admin Only)</h3>
+      <div class="admin-form">
+        <input id="wTitle" placeholder="Workshop Title *" />
+        <input id="wUrl" placeholder="YouTube URL *" />
+        <select id="wCat">
+          <option value="Career Development">Career Development</option>
+          <option value="Leadership">Leadership</option>
+          <option value="Entrepreneurship">Entrepreneurship</option>
+          <option value="Wellbeing">Wellbeing</option>
+          <option value="Finance">Finance</option>
+          <option value="Other">Other</option>
+        </select>
+        <textarea id="wDesc" class="full" rows="2" placeholder="Short description"></textarea>
+        <div class="full"><button class="btn-admin-add" onclick="addWorkshop()">Publish Workshop</button></div>
+      </div>
+    </div>
+    <div id="workshopsGrid" class="workshops-grid"></div>
+  </div>
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand"><div class="fb-logo">🌼 Daffodils for Doris</div><p>UK Registered Charity<br>Charity number: 1168073</p></div>
+      <div class="footer-col"><h4>Quick Links</h4><a href="#" onclick="return showPage('home')">Home</a><a href="#" onclick="return showPage('about')">About</a><a href="#" onclick="return showPage('partners')">Partners</a><a href="#" onclick="return showPage('forum')">Forum</a><a href="#" onclick="return showPage('workshops')">Workshops</a></div>
+      <div class="footer-col"><h4>Contact</h4><p>daffodils4doris@gmail.com</p></div>
+    </div>
+    <div class="footer-bottom">© 2026 Daffodils for Doris. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- ═══════════════════ JOIN MODAL ═══════════════════ -->
+<div id="joinModal" class="modal-overlay" onclick="if(event.target===this)closeModal('joinModal')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>🌼 Join Daffodils for Doris</h2>
+      <button class="modal-close" onclick="closeModal('joinModal')">✕</button>
+    </div>
+    <p style="color:#555;font-size:.9rem;margin-bottom:20px">How would you like to get involved?</p>
+    <div class="join-options">
+      <div class="join-option-card">
+        <div class="joc-icon">🌱</div>
+        <h3>I want to be a Mentee</h3>
+        <p>I'm looking for guidance and support from an experienced mentor.</p>
+        <a class="btn-joc mentee" href="https://forms.gle/GMQs66Aq4NDdouas7" target="_blank" rel="noopener noreferrer" onclick="closeModal('joinModal')">Apply as Mentee →</a>
+      </div>
+      <div class="join-option-card">
+        <div class="joc-icon">⭐</div>
+        <h3>I want to be a Mentor</h3>
+        <p>I want to share my skills and experience to empower other women.</p>
+        <a class="btn-joc mentor" href="https://forms.gle/kwxswZKt2uRDTfZ8A" target="_blank" rel="noopener noreferrer" onclick="closeModal('joinModal')">Apply as Mentor →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ LOGIN MODAL ═══════════════════ -->
+<div id="loginModal" class="modal-overlay" onclick="if(event.target===this)closeModal('loginModal')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>🔐 Log In</h2>
+      <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+    </div>
+    <label class="modal-label">Email Address</label>
+    <input class="modal-input" id="loginEmail" type="email" placeholder="you@example.com" />
+    <label class="modal-label">Password</label>
+    <input class="modal-input" id="loginPass" type="password" placeholder="Your password" />
+    <button class="btn-modal-primary" onclick="doLogin()">Log In</button>
+    <p style="text-align:center;margin-top:14px;font-size:.8rem;color:#888">
+      Demo — Admin: <strong>admin@d4d.org</strong> / <strong>admin123</strong><br>Regular user: any other email + password
+    </p>
+  </div>
+</div>
+
+<!-- ═══════════════════ REPLY MODAL ═══════════════════ -->
+<div id="replyModal" class="modal-overlay" onclick="if(event.target===this)closeModal('replyModal')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>💬 Write a Reply</h2>
+      <button class="modal-close" onclick="closeModal('replyModal')">✕</button>
+    </div>
+    <input type="hidden" id="replyPostId" />
+    <label class="modal-label">Your Reply</label>
+    <textarea class="modal-input" id="replyText" rows="4" placeholder="Write your reply..."></textarea>
+    <button class="btn-modal-primary" onclick="submitReply()">Post Reply</button>
+  </div>
+</div>
+
+<!-- ═══════════════════ JAVASCRIPT ═══════════════════ -->
+<script>
+var currentUser = null;
+
+var posts = [
+  {id:1, author:'Sarah M.', role:'Mentee', date:'Mar 28, 2026', title:'How do I prepare for my first mentor meeting?', body:"I just got matched with my mentor and our first call is next week. Any tips on how to make the most of it?", replies:[
+    {author:'Grace K.', role:'Mentor', text:'Prepare 3-5 specific questions or goals you want to discuss. Come with a brief intro about yourself and what you hope to achieve.'},
+    {author:'Admin', role:'Admin', text:'Welcome Sarah! We also have a workshop on this topic in the Workshops section. Good luck!'}
+  ]},
+  {id:2, author:'Amara T.', role:'Mentee', date:'Mar 30, 2026', title:'Balancing work and the mentoring programme', body:'I am struggling to find time for sessions alongside my full-time job. How do others manage this?', replies:[
+    {author:'Linda O.', role:'Mentor', text:'Try scheduling sessions on a fixed day each fortnight. Treating it like a work meeting really helps with consistency.'}
+  ]}
+];
+
+var workshops = [
+  {id:1, title:'Building Your Personal Brand', desc:'Learn how to create a compelling personal brand that opens doors in your career and community.', url:'https://www.youtube.com/embed/D-AUhHFHGvg', cat:'Career Development', date:'Feb 2026'},
+  {id:2, title:'Financial Literacy for Women Entrepreneurs', desc:'Essential financial skills every entrepreneur needs: budgeting, cash flow, and accessing funding.', url:'https://www.youtube.com/embed/Ip75EIGa_70', cat:'Entrepreneurship', date:'Mar 2026'},
+  {id:3, title:'Leading with Authenticity', desc:'Discover your unique leadership style and learn how authentic leadership builds trust and influence.', url:'https://www.youtube.com/embed/Cv81PycPdzs', cat:'Leadership', date:'Mar 2026'}
+];
+
+var partners = [
+  {id:1, name:'TechCorp International', desc:'Global technology company supporting women in STEM through mentorship and funding.', cat:'Corporate', url:'https://techcorp.com', logo:'💻'},
+  {id:2, name:'Women in Finance Foundation', desc:'Non-profit organisation dedicated to advancing women in financial services careers.', cat:'Foundation', url:'https://wif.org', logo:'💰'},
+  {id:3, name:'Global Education Alliance', desc:'Partnership network focused on educational opportunities for women worldwide.', cat:'NGO', url:'', logo:'🎓'}
+];
+
+/* ── Navigation ── */
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(function(a){ a.classList.remove('active'); });
+  var navEl = document.getElementById('nav-' + id);
+  if (navEl) navEl.classList.add('active');
+  if (id === 'forum') renderForum();
+  if (id === 'workshops') renderWorkshops();
+  if (id === 'partners') renderPartners();
+  window.scrollTo(0, 0);
+  return false;
+}
+
+/* ── Modals ── */
+function openJoinModal() { document.getElementById('joinModal').classList.add('open'); }
+function openLoginModal() { document.getElementById('loginModal').classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+/* ── Auth ── */
+function doLogin() {
+  var email = document.getElementById('loginEmail').value.trim();
+  var pass = document.getElementById('loginPass').value.trim();
+  if (!email || !pass) { alert('Please enter email and password'); return; }
+  var isAdmin = (email === 'admin@d4d.org' && pass === 'admin123');
+  currentUser = { name: email.split('@')[0], email: email, isAdmin: isAdmin };
+  closeModal('loginModal');
+  updateUserBar();
+  renderForum();
+  renderWorkshops();
+  renderPartners();
+}
+
+function logout() {
+  currentUser = null;
+  document.getElementById('userBar').style.display = 'none';
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginPass').value = '';
+  renderForum();
+  renderWorkshops();
+  renderPartners();
+}
+
+function updateUserBar() {
+  if (!currentUser) return;
+  document.getElementById('userBar').style.display = 'flex';
+  document.getElementById('loggedUserName').textContent = currentUser.name + (currentUser.isAdmin ? '' : '');
+  document.getElementById('adminBadge').style.display = currentUser.isAdmin ? 'inline-block' : 'none';
+}
+
+/* ── Forum ── */
+function renderForum() {
+  var locked = document.getElementById('forumLocked');
+  var form = document.getElementById('postFormContainer');
+  if (currentUser) { locked.style.display = 'none'; form.style.display = 'block'; }
+  else { locked.style.display = 'block'; form.style.display = 'none'; }
+
+  var list = document.getElementById('postsList');
+  list.innerHTML = posts.map(function(p) {
+    var roleClass = p.role === 'Mentor' ? 'mentor-role' : (p.role === 'Admin' ? 'admin-role' : '');
+    var repliesHtml = p.replies.map(function(r) {
+      var rc = r.role === 'Mentor' ? 'mentor-role' : (r.role === 'Admin' ? 'admin-role' : '');
+      return '<div class="reply-card"><div class="reply-meta"><span class="reply-author">'+r.author+'</span><span class="post-role '+rc+'">'+r.role+'</span></div><div class="reply-text">'+r.text+'</div></div>';
+    }).join('');
+    var replyBtn = currentUser ? '<button class="btn-reply" onclick="openReply('+p.id+')">Reply</button>' : '';
+    return '<div class="post-card"><div class="post-meta"><span class="post-author">'+p.author+'</span><span class="post-role '+roleClass+'">'+p.role+'</span><span class="post-date">'+p.date+'</span></div><div class="post-title">'+p.title+'</div><div class="post-body">'+p.body+'</div>'+replyBtn+'<div class="replies-section">'+repliesHtml+'</div></div>';
+  }).join('');
+}
+
+function submitPost() {
+  if (!currentUser) { alert('Please log in first'); return; }
+  var title = document.getElementById('postTitle').value.trim();
+  var body = document.getElementById('postBody').value.trim();
+  if (!title || !body) { alert('Please fill in both fields'); return; }
+  var dateStr = new Date().toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'});
+  posts.unshift({id: Date.now(), author: currentUser.name, role: currentUser.isAdmin ? 'Admin' : 'Member', date: dateStr, title: title, body: body, replies: []});
+  document.getElementById('postTitle').value = '';
+  document.getElementById('postBody').value = '';
+  renderForum();
+}
+
+function openReply(postId) {
+  document.getElementById('replyPostId').value = postId;
+  document.getElementById('replyText').value = '';
+  document.getElementById('replyModal').classList.add('open');
+}
+
+function submitReply() {
+  var postId = parseInt(document.getElementById('replyPostId').value);
+  var text = document.getElementById('replyText').value.trim();
+  if (!text) { alert('Please write a reply'); return; }
+  var post = posts.find(function(p){ return p.id === postId; });
+  if (post) post.replies.push({author: currentUser.name, role: currentUser.isAdmin ? 'Admin' : 'Member', text: text});
+  closeModal('replyModal');
+  renderForum();
+}
+
+/* ── Workshops ── */
+function renderWorkshops() {
+  document.getElementById('adminUploadSection').style.display = (currentUser && currentUser.isAdmin) ? 'block' : 'none';
+  var grid = document.getElementById('workshopsGrid');
+  grid.innerHTML = workshops.map(function(w) {
+    return '<div class="workshop-card"><iframe class="workshop-video" src="'+w.url+'" allowfullscreen title="'+w.title+'"></iframe><div class="workshop-info"><h3>'+w.title+'</h3><p>'+w.desc+'</p><div class="workshop-meta"><span class="workshop-cat">'+w.cat+'</span><span class="workshop-date">'+w.date+'</span></div></div></div>';
+  }).join('');
+}
+
+function addWorkshop() {
+  var title = document.getElementById('wTitle').value.trim();
+  var desc = document.getElementById('wDesc').value.trim();
+  var url = document.getElementById('wUrl').value.trim();
+  var cat = document.getElementById('wCat').value;
+  if (!title || !url) { alert('Please enter at minimum a title and video URL'); return; }
+  var embedUrl = url.replace('watch?v=','embed/').replace('youtu.be/','www.youtube.com/embed/');
+  var dateStr = new Date().toLocaleDateString('en-GB', {month:'short', year:'numeric'});
+  workshops.unshift({id: Date.now(), title: title, desc: desc || '', url: embedUrl, cat: cat, date: dateStr});
+  document.getElementById('wTitle').value = '';
+  document.getElementById('wDesc').value = '';
+  document.getElementById('wUrl').value = '';
+  renderWorkshops();
+  alert('Workshop published successfully!');
+}
+
+/* ── Partners ── */
+function renderPartners() {
+  document.getElementById('adminPartnerSection').style.display = (currentUser && currentUser.isAdmin) ? 'block' : 'none';
+  var grid = document.getElementById('partnersGrid');
+  grid.innerHTML = partners.map(function(p) {
+    var link = p.url ? '<a class="partner-link" href="'+p.url+'" target="_blank" rel="noopener noreferrer">Visit Website →</a>' : '';
+    var del = (currentUser && currentUser.isAdmin) ? '<button class="btn-remove-partner" onclick="deletePartner('+p.id+')">Remove Partner</button>' : '';
+    return '<div class="partner-card"><div class="partner-logo">'+p.logo+'</div><h3>'+p.name+'</h3><span class="partner-cat">'+p.cat+'</span><p>'+p.desc+'</p>'+link+del+'</div>';
+  }).join('');
+}
+
+function addPartner() {
+  var name = document.getElementById('pName').value.trim();
+  var desc = document.getElementById('pDesc').value.trim();
+  var cat = document.getElementById('pCat').value;
+  var url = document.getElementById('pUrl').value.trim();
+  var logo = document.getElementById('pLogo').value.trim() || '🤝';
+  if (!name || !desc) { alert('Please enter a partner name and description'); return; }
+  partners.unshift({id: Date.now(), name: name, desc: desc, cat: cat, url: url, logo: logo});
+  document.getElementById('pName').value = '';
+  document.getElementById('pDesc').value = '';
+  document.getElementById('pUrl').value = '';
+  document.getElementById('pLogo').value = '';
+  renderPartners();
+  alert('Partner added successfully!');
+}
+
+function deletePartner(id) {
+  if (!confirm('Remove this partner?')) return;
+  partners = partners.filter(function(p){ return p.id !== id; });
+  renderPartners();
+}
+
+function submitPartnerContact() {
+  var org = document.getElementById('contactOrgName').value.trim();
+  var person = document.getElementById('contactPerson').value.trim();
+  var email = document.getElementById('contactEmail').value.trim();
+  var msg = document.getElementById('contactMsg').value.trim();
+  if (!org || !person || !email || !msg) { alert('Please fill in all required fields'); return; }
+  alert('Thank you for your interest in partnering with Daffodils for Doris!\n\nWe have received your inquiry from ' + org + ' and will be in touch with ' + person + ' at ' + email + ' soon.');
+  document.getElementById('contactOrgName').value = '';
+  document.getElementById('contactPerson').value = '';
+  document.getElementById('contactEmail').value = '';
+  document.getElementById('contactMsg').value = '';
+}
+
+/* ── Init ── */
+renderForum();
+renderWorkshops();
+renderPartners();
+</script>
+</body>
+</html>
